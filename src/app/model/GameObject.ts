@@ -1,5 +1,5 @@
 export interface IGameObject {
-  pos: Position;
+  pos: GameObjectPosition;
   width: number;
   height: number;
   color: string;
@@ -7,15 +7,15 @@ export interface IGameObject {
 }
 
 export class GameObject {
-  pos: Position;
+  pos: GameObjectPosition;
     constructor() {
-      this.pos = new Position();
+      this.pos = new GameObjectPosition();
       this.pos.x = 0;
       this.pos.y = 0;
     }
   }
 
-export class Position {
+export class GameObjectPosition {
   x: number;
   y: number;
 }

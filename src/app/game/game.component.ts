@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy, NgZone, ChangeDetectorRef } from '@angular/core';
-import { IGameObject, Position } from '../model/GameObject';
+import { IGameObject, GameObjectPosition } from '../model/GameObject';
 import { GameBackGround } from '../model/GameBackGround';
 import { LevelObject } from '../model/LevelObject';
-import { GameTarget } from '../model/GameTarget';
+import { GameTargetObject } from '../model/targets/GameTargetObject';
 
 @Component({
   selector: 'app-game',
@@ -20,7 +20,7 @@ export class GameComponent implements OnInit, OnDestroy {
   canvas: any;
   levelObject: LevelObject;
   level: number;
-  lastClick: Position;
+  lastClick: GameObjectPosition;
 
   constructor(private ngZone: NgZone, private changeDetectorRef: ChangeDetectorRef) {
     this.running = false;
@@ -56,7 +56,7 @@ export class GameComponent implements OnInit, OnDestroy {
     }, 300)
   }
   onMouseClick(e) {
-    this.lastClick = new Position();
+    this.lastClick = new GameObjectPosition();
     this.lastClick.x = e.pageX - this.canvas.offsetLeft;
     this.lastClick.y = e.pageY - this.canvas.offsetTop;
   }
@@ -80,17 +80,13 @@ export class GameComponent implements OnInit, OnDestroy {
     }
       
     while (i < this.targets.length) {
-      let t = (this.targets[i] as GameTarget);
+      let t = (this.targets[i] as GameTargetObject);
       if (this.lastClick) {
-        const lc = this.lastClick
-        if (
-          lc.y > t.pos.y && lc.y < t.pos.y + t.height &&
-          lc.x > t.pos.x && lc.x < t.pos.x + t.width) {
+        if (t.checkIfHit(this.lastClick)) {
             // DUCK HIT!!!
             t.hit = true;
             t.color = 'red'
         }
-        this.lastClick = null;
       }
       if (t.framesSinceHit > FRAMES_TO_LIVE_AFTER_HIT) {
         this.targets.splice(i, 1);
@@ -99,6 +95,8 @@ export class GameComponent implements OnInit, OnDestroy {
       }
       i++;
     }
+
+    this.lastClick = null;
 
     // Schedule next
     requestAnimationFrame(() => this.draw());
