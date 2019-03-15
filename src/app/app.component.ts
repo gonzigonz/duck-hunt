@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Duck Hunt';
+  title = 'NG Duck Hunt';
   // initGrassY = 0;
 }

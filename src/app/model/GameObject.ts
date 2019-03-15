@@ -1,15 +1,21 @@
 export interface IGameObject {
-  x: number;
-  y: number;
+  pos: Position;
   width: number;
-  hight: number;
+  height: number;
   color: string;
   nextFrame: (ctx: CanvasRenderingContext2D) => void;
 }
 
-export class GameObject{
-    constructor(
-      public x: number,
-      public y: number) {
+export class GameObject {
+  pos: Position;
+    constructor() {
+      this.pos = new Position();
+      this.pos.x = 0;
+      this.pos.y = 0;
     }
   }
+
+export class Position {
+  x: number;
+  y: number;
+}

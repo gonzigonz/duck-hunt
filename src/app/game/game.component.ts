@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef, Input, OnDestroy, NgZone } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy, NgZone } from '@angular/core';
 import { IGameObject } from '../model/GameObject';
-import { BackGround } from '../model/GameBackGround';
+import { GameBackGround } from '../model/GameBackGround';
+import { LevelObject } from '../model/LevelObject';
 
 @Component({
   selector: 'app-game',
@@ -13,14 +14,18 @@ export class GameComponent implements OnInit, OnDestroy {
 
   running: boolean;
   backGround: IGameObject;
+  targets: IGameObject[];
   canvas: any;
+  level: LevelObject;
 
   constructor(private ngZone: NgZone) {
   }
 
   ngOnInit(): void {
     this.canvas = this.canvasRef.nativeElement;
-    this.backGround = new BackGround(this.canvas.width, this.canvas.height)
+    this.backGround = new GameBackGround(this.canvas.width, this.canvas.height);
+    this.level = new LevelObject(this.backGround.width, this.backGround.height);
+    this.targets = this.level.generateTargetsForLevel(3);
     this.running = true;
     this.ngZone.runOutsideAngular(() => this.draw());
   }
@@ -32,9 +37,15 @@ export class GameComponent implements OnInit, OnDestroy {
     if (!this.running) {
       return;
     }
-    // Paint
+
+    // Paint Scene
     let ctx: CanvasRenderingContext2D = this.canvas.getContext('2d');
     this.backGround.nextFrame(ctx);
+
+    // Paint Targets
+    this.targets.forEach((t) => {
+      t.nextFrame(ctx);
+    })
   
     // Schedule next
     requestAnimationFrame(() => this.draw());
