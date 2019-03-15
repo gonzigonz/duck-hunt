@@ -4,12 +4,11 @@ import { IGameObject } from "../IGameObject";
 import { IFlightPath } from './IFlightPath';
 
 export class RubberDuck extends GameTargetObject implements IGameObject {
-    radis: number;
+    radius: number;
     constructor(xBoundary: number, yBoundary: number) {
         super();
-        this.width = 20;
-        this.height = 20;
-        this.radis = this.width/2;
+        this.width = 15;
+        this.height = 8;
         this.color = 'rgba(255, 255, 0, 1)';
         this.flightPath = new RubberDuckFlightPath(xBoundary, yBoundary);
         this.draw = this.drawFunc;
@@ -17,8 +16,10 @@ export class RubberDuck extends GameTargetObject implements IGameObject {
     }
     drawFunc(ctx: CanvasRenderingContext2D) {
             // Draw your target object here
+            let headRadius = this.height * 0.8;
             ctx.beginPath();
-            ctx.arc(this.pos.x, this.pos.y, this.radis, 0, 2 * Math.PI);
+            ctx.ellipse(this.pos.x, this.pos.y, this.width, this.height, 0, 0, 2 * Math.PI);
+            ctx.arc(this.pos.x + headRadius, this.pos.y - this.height -3, headRadius, 0, 2 * Math.PI);
             ctx.closePath();
             ctx.fillStyle = this.color;
             ctx.fill();
@@ -26,8 +27,8 @@ export class RubberDuck extends GameTargetObject implements IGameObject {
     checkIfHitFunc(lastClick: GameObjectPosition) {
         // Define your hit criteria here
         let lc = lastClick;
-        let isXCorrect = lc.x > this.pos.x - this.radis && lc.x < this.pos.x + this.radis;
-        let isYCorrect = lc.y > this.pos.y - this.radis && lc.y < this.pos.y + this.radis;
+        let isXCorrect = lc.x > this.pos.x - this.width/2 && lc.x < this.pos.x + this.width/2;
+        let isYCorrect = lc.y > this.pos.y - this.height && lc.y < this.pos.y + this.height/2;
         return isXCorrect && isYCorrect
     }
 }
