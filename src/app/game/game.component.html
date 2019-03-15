@@ -1,3 +1,6 @@
-<button (click)="startPause()" width="200">{{ running ? 'Pause' : 'Start' }}</button>
-<button (click)="restart()">Restart</button>
-<canvas #canvasScene width="640" height="480"></canvas>
+<div style="text-align:center">
+    <button (click)="startPause()" width="200">{{ running ? 'Pause' : 'Start' }}</button>
+    <button (click)="restart()">Restart</button>
+    <h4>Leve {{level}}</h4>
+    <canvas #canvasScene width="640" height="480"></canvas>
+</div>
