@@ -23,16 +23,16 @@ export class LevelObject {
             startingY = this.yBoundary * (Math.floor(Math.random() * 60)/100);
 
             // Add Rubber Ducks
-            let rubberDucky = new RubberDuck(this.xBoundary, this.yBoundary);
-            rubberDucky.pos.x = Math.floor(Math.random() * (this.xBoundary - rubberDucky.width))
-            rubberDucky.pos.y = this.yBoundary * 0.97;
-            list.push(rubberDucky);
-
-            // Add Rubber Ducks
             let woodenDuck = new WoodenDuck(this.xBoundary, this.yBoundary);
             woodenDuck.pos.x = Math.floor(Math.random() * (this.xBoundary - woodenDuck.width))
             woodenDuck.pos.y = this.yBoundary * 0.91;
             list.push(woodenDuck);
+
+            // Add Rubber Ducks
+            let rubberDucky = new RubberDuck(this.xBoundary, this.yBoundary);
+            rubberDucky.pos.x = Math.floor(Math.random() * (this.xBoundary - rubberDucky.width))
+            rubberDucky.pos.y = this.yBoundary * 0.97;
+            list.push(rubberDucky);
         }
         return list;
     }
