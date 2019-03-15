@@ -6,6 +6,9 @@ export class GameTarget extends GameObject implements IGameObject {
     color: string;
     flightPath: FlightPath;
 
+    hit: boolean;
+    framesSinceHit: number = 0;
+
     constructor(xBoundary: number, yBoundary: number) {
         super();
         this.width = 40;
@@ -14,7 +17,11 @@ export class GameTarget extends GameObject implements IGameObject {
         this.flightPath = new FlightPath(xBoundary, yBoundary);
     }
     nextFrame(ctx: CanvasRenderingContext2D) {
-        this.flightPath.updatePos(this.pos, this.height);
+        if (!this.hit) {
+            this.flightPath.updatePos(this.pos, this.height);
+        } else {
+            this.framesSinceHit ++;
+        }
         ctx.fillStyle = this.color
         ctx.fillRect(this.pos.x, this.pos.y, this.width, this.height);
     }

@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy, NgZone } from '@angular/core';
-import { IGameObject } from '../model/GameObject';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy, NgZone, ChangeDetectorRef } from '@angular/core';
+import { IGameObject, Position } from '../model/GameObject';
 import { GameBackGround } from '../model/GameBackGround';
 import { LevelObject } from '../model/LevelObject';
+import { GameTarget } from '../model/GameTarget';
 
 @Component({
   selector: 'app-game',
@@ -19,8 +20,9 @@ export class GameComponent implements OnInit, OnDestroy {
   canvas: any;
   levelObject: LevelObject;
   level: number;
+  lastClick: Position;
 
-  constructor(private ngZone: NgZone) {
+  constructor(private ngZone: NgZone, private changeDetectorRef: ChangeDetectorRef) {
     this.running = false;
     this.level = 1;
   }
@@ -42,15 +44,21 @@ export class GameComponent implements OnInit, OnDestroy {
     this.running = true;
     this.ngZone.runOutsideAngular(() => this.draw());
   }
-  restart() {
-    this.level = 1;
+  restart(level) {
     this.running = false;
+    this.level = level;
+    this.changeDetectorRef.detectChanges() 
     let ctx: CanvasRenderingContext2D = this.canvas.getContext('2d');
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.targets = this.levelObject.generateTargetsForLevel(this.level);
     setTimeout(() => {
       this.startPause();
     }, 300)
+  }
+  onMouseClick(e) {
+    this.lastClick = new Position();
+    this.lastClick.x = e.pageX - this.canvas.offsetLeft;
+    this.lastClick.y = e.pageY - this.canvas.offsetTop;
   }
   draw() {
     // Check that we're still running.
@@ -63,10 +71,35 @@ export class GameComponent implements OnInit, OnDestroy {
     this.backGround.nextFrame(ctx);
 
     // Paint Targets
-    this.targets.forEach((t) => {
-      t.nextFrame(ctx);
-    })
-  
+    const FRAMES_TO_LIVE_AFTER_HIT: number = 6;
+    let i = 0;
+    if (!this.targets.length) {
+      console.log('Level ' + this.level + ' Complete!');
+      this.restart(this.level + 1);
+      return;
+    }
+      
+    while (i < this.targets.length) {
+      let t = (this.targets[i] as GameTarget);
+      if (this.lastClick) {
+        const lc = this.lastClick
+        if (
+          lc.y > t.pos.y && lc.y < t.pos.y + t.height &&
+          lc.x > t.pos.x && lc.x < t.pos.x + t.width) {
+            // DUCK HIT!!!
+            t.hit = true;
+            t.color = 'red'
+        }
+        this.lastClick = null;
+      }
+      if (t.framesSinceHit > FRAMES_TO_LIVE_AFTER_HIT) {
+        this.targets.splice(i, 1);
+      } else {
+        t.nextFrame(ctx);
+      }
+      i++;
+    }
+
     // Schedule next
     requestAnimationFrame(() => this.draw());
   }
