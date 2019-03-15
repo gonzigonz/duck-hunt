@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy, NgZone, ChangeDetectorRef } from '@angular/core';
-import { IGameObject, GameObjectPosition } from '../model/GameObject';
+import { GameObjectPosition } from '../model/GameObject';
+import { IGameObject } from "../model/IGameObject";
 import { GameBackGround } from '../model/GameBackGround';
 import { LevelObject } from '../model/LevelObject';
 import { GameTargetObject } from '../model/targets/GameTargetObject';
@@ -10,7 +11,6 @@ import { GameTargetObject } from '../model/targets/GameTargetObject';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit, OnDestroy {
-  // @Input('initGrassY') initGrassY: number;
   @ViewChild('canvasScene') canvasRef: ElementRef;
 
   drawFuncLoaded: boolean;
@@ -39,9 +39,11 @@ export class GameComponent implements OnInit, OnDestroy {
   startPause() {
     if (this.running) {
       this.running = false;
+      this.changeDetectorRef.detectChanges();
       return;
     }
     this.running = true;
+    this.changeDetectorRef.detectChanges();
     this.ngZone.runOutsideAngular(() => this.draw());
   }
   restart(level) {
@@ -90,6 +92,7 @@ export class GameComponent implements OnInit, OnDestroy {
       }
       if (t.framesSinceHit > FRAMES_TO_LIVE_AFTER_HIT) {
         this.targets.splice(i, 1);
+        this.changeDetectorRef.detectChanges();
       } else {
         t.nextFrame(ctx);
       }

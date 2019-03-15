@@ -1,4 +1,5 @@
-import { IGameObject, GameObject } from './GameObject';
+import { GameObject } from './GameObject';
+import { IGameObject } from "./IGameObject";
 
 export class GameBackGround extends GameObject implements IGameObject {  
   color: string;

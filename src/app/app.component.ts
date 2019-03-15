@@ -7,5 +7,4 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'NG Duck Hunt';
-  // initGrassY = 0;
 }

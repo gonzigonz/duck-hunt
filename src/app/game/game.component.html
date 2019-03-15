@@ -1,6 +1,6 @@
 <div style="text-align:center">
     <button (click)="startPause()" width="200">{{ running ? 'Pause' : 'Start' }}</button>
     <button (click)="restart(1)">Restart</button>
-    <h4>Level {{level}}</h4>
+    <h4>Level {{level}} <span *ngIf="running">(Targets Left: {{targets.length}})</span></h4>
     <canvas #canvasScene width="640" height="480" (mousedown)="onMouseClick($event)"></canvas>
 </div>

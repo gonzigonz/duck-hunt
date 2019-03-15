@@ -1,5 +1,6 @@
 import { GameTargetObject } from './GameTargetObject';
-import { IGameObject, GameObjectPosition } from '../GameObject';
+import { GameObjectPosition } from '../GameObject';
+import { IGameObject } from "../IGameObject";
 import { IFlightPath } from './IFlightPath';
 
 export class RubberDuck extends GameTargetObject implements IGameObject {

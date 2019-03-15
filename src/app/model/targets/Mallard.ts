@@ -1,4 +1,5 @@
-import { IGameObject, GameObjectPosition } from '../GameObject';
+import { GameObjectPosition } from '../GameObject';
+import { IGameObject } from "../IGameObject";
 import { GameTargetObject } from './GameTargetObject';
 import { IFlightPath } from "./IFlightPath";
 

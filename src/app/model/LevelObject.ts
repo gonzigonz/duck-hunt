@@ -1,4 +1,4 @@
-import { IGameObject } from './GameObject';
+import { IGameObject } from "./IGameObject";
 import { Mallard } from './targets/Mallard';
 import { RubberDuck } from './targets/RubberDuck';
 import { WoodenDuck } from './targets/WoodenDuck';
@@ -24,13 +24,13 @@ export class LevelObject {
 
             // Add Rubber Ducks
             let rubberDucky = new RubberDuck(this.xBoundary, this.yBoundary);
-            rubberDucky.pos.x = Math.floor(Math.random() * this.xBoundary)
+            rubberDucky.pos.x = Math.floor(Math.random() * (this.xBoundary - rubberDucky.width))
             rubberDucky.pos.y = this.yBoundary * 0.97;
             list.push(rubberDucky);
 
             // Add Rubber Ducks
             let woodenDuck = new WoodenDuck(this.xBoundary, this.yBoundary);
-            woodenDuck.pos.x = Math.floor(Math.random() * this.xBoundary)
+            woodenDuck.pos.x = Math.floor(Math.random() * (this.xBoundary - woodenDuck.width))
             woodenDuck.pos.y = this.yBoundary * 0.91;
             list.push(woodenDuck);
         }
