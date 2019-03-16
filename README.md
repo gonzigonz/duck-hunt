@@ -1,4 +1,5 @@
-# DuckHunt
+# NG Duck Hunt
+[![Build status](https://gonzigonz.visualstudio.com/NG%20Duck%20Hunt/_apis/build/status/NG%20Duck%20Hunt-CI)](https://gonzigonz.visualstudio.com/NG%20Duck%20Hunt/_build/latest?definitionId=12)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.5.
 
