@@ -11,7 +11,7 @@ import { GameTargetObject } from '../model/targets/GameTargetObject';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit, OnDestroy {
-  @ViewChild('canvasScene') canvasRef: ElementRef;
+  @ViewChild('canvasScene', { static: true }) canvasRef: ElementRef;
 
   drawFuncLoaded: boolean;
   running: boolean;
