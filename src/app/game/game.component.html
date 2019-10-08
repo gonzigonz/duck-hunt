@@ -1,7 +1,7 @@
 <div style="text-align:center">
     <button (click)="startPause()" width="200">{{ running ? 'Pause' : 'Start' }}</button>
-    <button (click)="restart(1)">Restart</button>
-    <p>Level {{level}}<span *ngIf="running"> (targets left: {{targets.length}})</span>
+    <button (click)="reset()">Reset</button>
+    <p>Level {{this.gameLevel.current}}<span *ngIf="running"> (targets left: {{targets.length}})</span>
         <br/>
         <small style="color: red">click to shoot</small>
     </p>
