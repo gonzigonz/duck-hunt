@@ -82,19 +82,21 @@ export class GameComponent implements OnInit, OnDestroy {
 
         while (i < this.targets.length) {
             const t = (this.targets[i] as ITargetAsset);
-            if (this.lastClick) {
-                if (t.checkIfHit(this.lastClick)) {
-                    // DUCK HIT!!!
-                    t.hit = true;
-                    t.color = 'red';
+            if (t.hit) {
+                if (t.framesSinceHit > FRAMES_TO_LIVE_AFTER_HIT) {
+                    this.targets.splice(i, 1);
+                    this.changeDetectorRef.detectChanges();
+                }
+            } else {
+                if (this.lastClick) {
+                    if (t.checkIfHit(this.lastClick)) {
+                        // DUCK HIT!!!
+                        t.hit = true;
+                        t.color = 'red';
+                    }
                 }
             }
-            if (t.framesSinceHit > FRAMES_TO_LIVE_AFTER_HIT) {
-                this.targets.splice(i, 1);
-                this.changeDetectorRef.detectChanges();
-            } else {
-                t.nextFrame(ctx);
-            }
+            t.nextFrame(ctx);
             i++;
         }
 
