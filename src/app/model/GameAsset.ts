@@ -1,13 +1,13 @@
-export class GameObject {
-  pos: GameObjectPosition;
+export class CanvasPosition {
+  x: number;
+  y: number;
+}
+
+export class GameAsset {
+  pos: CanvasPosition;
     constructor() {
-      this.pos = new GameObjectPosition();
+      this.pos = new CanvasPosition();
       this.pos.x = 0;
       this.pos.y = 0;
     }
   }
-
-export class GameObjectPosition {
-  x: number;
-  y: number;
-}

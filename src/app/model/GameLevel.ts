@@ -1,39 +1,61 @@
-import { IGameObject } from "./IGameObject";
-import { Mallard } from './targets/Mallard';
-import { RubberDuck } from './targets/RubberDuck';
-import { WoodenDuck } from './targets/WoodenDuck';
+import { Mallard } from './game-assets/targets/Mallard';
+import { RubberDuck } from './game-assets/targets/RubberDuck';
+import { WoodenDuck } from './game-assets/targets/WoodenDuck';
+import { ITargetAsset } from './game-assets/ITargetAsset';
+import { TargetAsset } from './game-assets/TargetAsset';
 
-export class LevelObject {
+export class GameLevel {
+    current: number;
     constructor(private xBoundary: number, private yBoundary: number) {
+        this.reset();
     }
 
-    generateTargetsForLevel(level: number){
-        let list: IGameObject[] = [];
+    nextLevel() {
+        this.current += 1;
+    }
+
+    reset() {
+        this.current = 1;
+    }
+
+    newTargets() {
+        const list: ITargetAsset[] = [];
+        let t: TargetAsset;
         let startingX = -80;
-        let startingY = this.yBoundary * (Math.floor(Math.random() * 60)/100);
-        for (let i = 0; i < level; i++) {
+        let startingY = this.yBoundary * this.randomInt(60) / 100;
+        for (let i = 0; i < this.current; i++) {
 
             // Add Mallards
-            let mallard = new Mallard(this.xBoundary, this.yBoundary);
-            mallard.pos.x = startingX;
-            mallard.pos.y = startingY;
-            mallard.flightPath.speed = mallard.flightPath.speed * level * (Math.floor(Math.random() * 20) + 40)/100;
-            list.push(mallard);
-            startingX -= this.xBoundary * (Math.floor(Math.random() * 100) + 100)/200;
-            startingY = this.yBoundary * (Math.floor(Math.random() * 60)/100);
+            t = new Mallard(this.xBoundary, this.yBoundary);
+            t.pos.x = startingX;
+            t.pos.y = startingY;
+            t.flightPath.speed *= this.current * (this.randomInt(20) + 40) / 100;
+            list.push(t);
+            startingX -= this.xBoundary * (this.randomInt(100) + 100) / 200;
+            startingY = this.yBoundary * this.randomInt(60) / 100;
 
             // Add Rubber Ducks
-            let woodenDuck = new WoodenDuck(this.xBoundary, this.yBoundary);
-            woodenDuck.pos.x = Math.floor(Math.random() * (this.xBoundary - woodenDuck.width))
-            woodenDuck.pos.y = this.yBoundary * 0.91;
-            list.push(woodenDuck);
+            t = new WoodenDuck(this.xBoundary, this.yBoundary);
+            t.pos.x = this.randomOfRange(this.xBoundary - t.width);
+            t.pos.y = this.yBoundary * 0.91;
+            list.push(t);
 
             // Add Rubber Ducks
-            let rubberDucky = new RubberDuck(this.xBoundary, this.yBoundary);
-            rubberDucky.pos.x = Math.floor(Math.random() * (this.xBoundary - rubberDucky.width))
-            rubberDucky.pos.y = this.yBoundary * 0.97;
-            list.push(rubberDucky);
+            t = new RubberDuck(this.xBoundary, this.yBoundary);
+            t.pos.x = this.randomOfRange(this.xBoundary - t.width);
+            t.pos.y = this.yBoundary * 0.97;
+            list.push(t);
         }
         return list;
+    }
+
+    randomInt(max: number) {
+        const ans = Math.floor(Math.random() * max);
+        return ans;
+    }
+
+    randomOfRange(range: number) {
+        const ans = Math.floor(Math.random() * range);
+        return ans;
     }
 }

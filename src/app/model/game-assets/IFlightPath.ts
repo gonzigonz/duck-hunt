@@ -1,5 +1,5 @@
-import { GameObjectPosition } from '../GameObject';
+import { CanvasPosition } from '../GameAsset';
 export interface IFlightPath {
     speed: number;
-    updatePos: (pos: GameObjectPosition, size: number) => GameObjectPosition;
+    updatePos: (pos: CanvasPosition, size: number) => CanvasPosition;
 }

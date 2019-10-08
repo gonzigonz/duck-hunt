@@ -1,7 +1,7 @@
-import { GameObject } from './GameObject';
-import { IGameObject } from "./IGameObject";
+import { GameAsset } from '../GameAsset';
+import { IGameAsset } from '../IGameAsset';
 
-export class GameBackGround extends GameObject implements IGameObject {  
+export class GameBackGround extends GameAsset implements IGameAsset {
   color: string;
   skyColor: string;
   grassColor: string;
@@ -17,8 +17,8 @@ export class GameBackGround extends GameObject implements IGameObject {
     ctx.fillRect(this.pos.x, this.pos.y, this.width, this.height);
     // Draw Grass
     ctx.fillStyle = this.grassColor;
-    let grassY = this.height - (this.height * 0.1);
-    let grassHight = this.height * 0.1;
+    const grassY = this.height - (this.height * 0.1);
+    const grassHight = this.height * 0.1;
     ctx.fillRect(this.pos.x, grassY, this.width, grassHight);
   }
 }

@@ -1,6 +1,6 @@
-import { GameObjectPosition } from './GameObject';
-export interface IGameObject {
-  pos: GameObjectPosition;
+import { CanvasPosition } from './GameAsset';
+export interface IGameAsset {
+  pos: CanvasPosition;
   width: number;
   height: number;
   color: string;
